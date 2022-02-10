@@ -1,0 +1,9 @@
+dependencyResolutionManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        google()
+    }
+}
+
+include("backend-terraform")
