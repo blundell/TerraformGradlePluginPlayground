@@ -8,29 +8,24 @@ terraform {
   # 0.12.26 as the minimum version, as that version added support for required_providers with source URLs, making it
   # forwards compatible with 0.13.x code.
   required_version = ">= 0.12.26"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.27"
+    }
+  }
 }
 
-variable "example" {
-  description = "Example variable"
-  type        = string
+provider "aws" {
+  profile = "default"
+  region  = "eu-west-2"
 }
 
-variable "example2" {
-  description = "Example variable 2"
-  type        = string
-}
-
-# ---------------------------------------------------------------------------------------------------------------------
-# BASIC TERRAFORM EXAMPLE
-# See test/terraform_aws_example.go for how to write automated tests for this code.
-# ---------------------------------------------------------------------------------------------------------------------
-
-resource "local_file" "example" {
-  content  = "${var.example} + ${var.example2}"
-  filename = "example.txt"
-}
-
-resource "local_file" "example2" {
-  content  = var.example2
-  filename = "example2.txt"
+resource "aws_lambda_function" "exampleLambda" {
+  function_name = "myExampleLambda"
+  role          = "unused-for-example"
+  handler       = "com.blundell.ExampleLambda::handleRequest"
+  runtime       = "java11"
+  filename      = var.resources.myExample_jar.path
 }

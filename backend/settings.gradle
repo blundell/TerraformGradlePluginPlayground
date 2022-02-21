@@ -7,3 +7,4 @@ dependencyResolutionManagement {
 }
 
 include("backend-terraform")
+include("lambdas:example-lambda")
